@@ -116,4 +116,4 @@ VALUES ('Hernandez','Monica','Pensilvania 1600', 'Aguascalientes'),
 #### Example
 The idea is to create a DB for a blog. The variable types and their realationships are defined as follows:
 
-<img src="https://i.postimg.cc/ydZ96f1p/Screenshot-from-2022-10-02-16-34-12.png" alt="DB Diagram for a blog" width="600" height="380">
+<img src="https://i.postimg.cc/ydZ96f1p/Screenshot-from-2022-10-02-16-34-12.png" alt="DB Diagram for a blog" width="560" height="380">
