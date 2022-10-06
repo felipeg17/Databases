@@ -8,7 +8,7 @@ I started the repos with [ROS tutorials](https://github.com/fegonzalez7/rob_unal
  - **Why DB and SQL?:** Because a do not know a dam* thing about it, so I am starting from scratch.
  - **Why a repo poorly coded and badly commented?:** Well, there should be probably hundreds of books about these topics, but they are not mine, plus this is my way.
 
- *Disclaimer:* I will never say that a random [*chick*](https://github.com/ariasAleia?tab=repositories) was right about this. It seems that I am recovering the licence to <*insert some sh#t*>.
+ *Disclaimer:* I will never say that a random [*chick*](https://github.com/ariasAleia?tab=repositories) was right about this. It seems that I am recovering the license to <*insert some sh#t*>.
 </p></details></br>
 
 # Databases
