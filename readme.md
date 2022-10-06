@@ -38,16 +38,16 @@ CREATE SCHEMA `platziblog` DEFAULT CHARACTER SET utf8;
 ```sql
 -- A table named people is created in the platziblog schema. Five colums are created 
 -- person_id: integer, primary id, not null and auto increment 
--- last_name: char of max 255 null by default
--- first_name: char of max 255 null by default
--- address: char of max 255 null by default
--- city: char of max 255 null by default
+-- last_name: char of max 255 not null 
+-- first_name: char of max 255 not null 
+-- address: char of max 255 not null 
+-- city: char of max 255 not null 
 CREATE TABLE `platziblog`.`people` (
   `person_id` INT NOT NULL AUTO_INCREMENT,
-  `last_name` VARCHAR(255) NULL,
-  `first_name` VARCHAR(255) NULL,
-  `address` VARCHAR(255) NULL,
-  `city` VARCHAR(255) NULL,
+  `last_name` VARCHAR(255) NOT NULL,
+  `first_name` VARCHAR(255) NOT NULL,
+  `address` VARCHAR(255) NOT NULL,
+  `city` VARCHAR(255) NOT NULL,
   PRIMARY KEY (`person_id`));
 ```
 
@@ -117,3 +117,94 @@ VALUES ('Hernandez','Monica','Pensilvania 1600', 'Aguascalientes'),
 The idea is to create a DB for a blog. The variable types and their realationships are defined as follows:
 
 <img src="https://i.postimg.cc/ydZ96f1p/Screenshot-from-2022-10-02-16-34-12.png" alt="DB Diagram for a blog" width="560" height="380">
+
+So get into the code:
+
+```sql 
+-- Create the schema
+CREATE SCHEMA `platziblog` DEFAULT CHARACTER SET utf8;
+
+-- Create the tables
+-- email column has to be unique (no repeated entries)
+CREATE TABLE `platziblog`.`usuarios`(
+  `id` INT NOT NULL AUTO_INCREMENT,
+  `login` VARCHAR(30) NOT NULL,
+  `password` VARCHAR(32) NOT NULL,
+  `nickname` VARCHAR(40) NOT NULL,
+  `email` VARCHAR(40) NOT NULL,
+  PRIMARY KEY (`id`),
+  UNIQUE INDEX `email_UNIQUE` (`email` ASC));
+
+-- status can be null by default 'activo'
+CREATE TABLE `platziblog`.`posts` (
+  `id` INT NOT NULL AUTO_INCREMENT,
+  `titulo` VARCHAR(130) NOT NULL,
+  `fecha_publicacion` TIMESTAMP NULL,
+  `contenido` TEXT NOT NULL,
+  `estatus` CHAR(8) NULL DEFAULT 'activo',
+  `usuario_id` INT NOT NULL,
+  `categoria_id` INT NOT NULL,
+  PRIMARY KEY (`id`));
+
+CREATE TABLE `platziblog`.`categorias`(
+  `id` INT NOT NULL AUTO_INCREMENT,
+  `nombre_categoria` VARCHAR(30) NOT NULL,
+  PRIMARY KEY (`id`));
+
+CREATE TABLE `platziblog`.`etiquetas`(
+  `id` INT NOT NULL AUTO_INCREMENT,
+  `nombre_etiqueta` VARCHAR(30) NOT NULL,
+  PRIMARY KEY (`id`));
+
+CREATE TABLE `platziblog`.`comentarios`(
+  `id` INT NOT NULL AUTO_INCREMENT,
+  `cuerpo_comentario` TEXT NOT NULL,
+  `usuario_id` INT NOT NULL,
+  `post_id` INT NOT NULL,
+  PRIMARY KEY (`id`));
+```
+
+Now the tricky part, because there are multiple dependencies or 'relations' between **comentarios** and **posts** it is neccesary to insert a foreing key into table **comentarios**.
+
+```sql
+--- A new index is added
+ALTER TABLE `platziblog`.`comentarios` 
+ADD INDEX `posts_post_idx` (`post_id` ASC);
+
+--- column post_id is brought as a foreign key 
+ALTER TABLE `platziblog`.`comentarios`
+ADD CONSTRAINT `comentarios_post`
+	FOREIGN KEY (`post_id`)
+    REFERENCES `platziblog`.`posts`(`id`)
+    ON DELETE NO ACTION
+    ON UPDATE CASCADE;
+```
+**Note:** my_sql workbench on Linux is kinda buggy, so I could not make the process using the GUI, it was by code.
+
+<details><summary>Proof</summary><p>
+<img src="https://i.postimg.cc/y8K0LKGy/Screenshot-from-2022-10-05-20-44-53.png" width="640" height="256">
+</p></details></br>
+
+Time to populate the table, refer to [populate_tables.sql](populate_tables.sql)
+
+Let's try some queries:
+
+```sql
+--- projects 3 columns changing the name
+SELECT titulo AS encabezado, fecha_publicacion AS publicado_en, estatus AS estado 
+FROM posts;
+```
+<details><summary>result</summary><p>
+<img src="https://i.postimg.cc/cHDhvBQj/Screenshot-from-2022-10-05-22-41-33.png" width="640" height="400">
+</p></details></br>
+
+```sql
+--- counts the number of entries of table posts
+SELECT COUNT(*) AS numero_posts 
+FROM platziblog.posts;
+```
+<details><summary>result</summary><p>
+<img src="https://i.postimg.cc/DyNNjn4D/Screenshot-from-2022-10-05-22-41-44.png" width="640" height="255">
+</p></details></br>
+
+
