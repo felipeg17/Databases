@@ -116,7 +116,7 @@ VALUES ('Hernandez','Monica','Pensilvania 1600', 'Aguascalientes'),
 #### Example
 The idea is to create a DB for a blog. The variable types and their realationships are defined as follows:
 
-<img src="https://i.postimg.cc/ydZ96f1p/Screenshot-from-2022-10-02-16-34-12.png" alt="DB Diagram for a blog" width="560" height="380">
+<img src="https://i.postimg.cc/ydZ96f1p/Screenshot-from-2022-10-02-16-34-12.png" alt="DB Diagram for a blog" width="560" height=auto>
 
 So get into the code:
 
@@ -182,7 +182,7 @@ ADD CONSTRAINT `comentarios_post`
 **Note:** my_sql workbench on Linux is kinda buggy, so I could not make the process using the GUI, it was by code.
 
 <details><summary>Proof</summary><p>
-<img src="https://i.postimg.cc/y8K0LKGy/Screenshot-from-2022-10-05-20-44-53.png" width="640" height="256">
+<img src="https://i.postimg.cc/y8K0LKGy/Screenshot-from-2022-10-05-20-44-53.png" width="640" height=auto>
 </p></details></br>
 
 Time to populate the table, refer to [populate_tables.sql](populate_tables.sql)
@@ -195,7 +195,7 @@ SELECT titulo AS encabezado, fecha_publicacion AS publicado_en, estatus AS estad
 FROM posts;
 ```
 <details><summary>result</summary><p>
-<img src="https://i.postimg.cc/cHDhvBQj/Screenshot-from-2022-10-05-22-41-33.png" width="640" height="400">
+<img src="https://i.postimg.cc/cHDhvBQj/Screenshot-from-2022-10-05-22-41-33.png" width="640" height=auto>
 </p></details></br>
 
 ```sql
@@ -204,7 +204,99 @@ SELECT COUNT(*) AS numero_posts
 FROM platziblog.posts;
 ```
 <details><summary>result</summary><p>
-<img src="https://i.postimg.cc/DyNNjn4D/Screenshot-from-2022-10-05-22-41-44.png" width="640" height="255">
+<img src="https://i.postimg.cc/DyNNjn4D/Screenshot-from-2022-10-05-22-41-44.png" width="640" height=auto>
 </p></details></br>
+
+### Set Operations
+
+Well, it's time for Mr. Venn, now seriously, there are 4 operations widely used: *joins*, *union*, *intersection* and *difference*. For the sake of all examples 2 sets (tables) are gonna be used **A** (*usuarios*) and **B** (*posts*).  
+
+```sql
+SELECT * FROM usuarios;
+```
+<details><summary>usuarios</summary><p>
+<img src="https://i.postimg.cc/d3p7Lnpj/Screenshot-from-2022-10-09-17-21-46.png" width="640" height=auto>
+</p></details></br>
+
+```sql
+SELECT * FROM posts
+```
+<details><summary>posts</summary><p>
+<img src="https://i.postimg.cc/dtZkzPZH/Screenshot-from-2022-10-09-17-21-58.png" width="640" height=auto>
+</p></details></br>
+
++ **join:** Operations in which the elements of a set are joined (redundancy). In general the rest of operators can be seen as joins with constrains. 
+  + **left join:** It takes what is in **A** and what is shared with **B**,in esence, the set **A** plus the joined data from **B**. 
+```sql
+SELECT * FROM usuarios
+  LEFT JOIN posts ON usuarios.id = posts.usuario_id;
+```
+Notice that *usuarios* is located at the left, all data related with the key *usuarios_id* is linked, but there is one user that has no post (the las one). So the join means all the users with o without a post.
+<details><summary>left join usuarios and posts</summary><p>
+<img src="https://i.postimg.cc/7ZvG4sgx/Screenshot-from-2022-10-09-17-28-09.png" width="640" height=auto>
+</p></details></br>
+
+  + **right join:** It takes what is in **B** and what is shared with **A**,in esence, the set **B** plus the joined data from **A**.
+```sql
+SELECT * FROM usuarios
+  RIGHT JOIN posts ON usuarios.id = posts.usuario_id;
+```
+Notice that even though *usuarios* is at the left, the result is sorted by *posts_id*. Again the shared data is related by *usuarios_id* but this time the join means all the posts with or without user.
+<details><summary>right join usuarios and posts</summary><p>
+<img src="https://i.postimg.cc/QdpBdQbc/Screenshot-from-2022-10-09-17-28-50.png" width="640" height=auto>
+</p></details></br>
+
+  + **join using where:** It is an operation in which constrains or conditions can be added to the query, in escene, it is to filter even more the query. Two examples are the best way to represent it.
+```sql
+SELECT * FROM usuarios
+  LEFT JOIN posts ON usuarios.id = posts.usuario_id
+  WHERE posts.usuario_id IS NULL;
+```
+It returns all the users without a post.
+<details><summary>left join usuarios and posts + where</summary><p>
+<img src="https://i.postimg.cc/4N8PLDMF/Screenshot-from-2022-10-09-18-07-48.png" width="640" height=auto>
+</p></details></br>
+
+```sql
+SELECT * FROM usuarios
+  RIGHT JOIN posts ON usuarios.id = posts.usuario_id
+  WHERE posts.usuario_id IS NULL;
+```
+It returns all the posts without an user.
+<details><summary>right join usuarios and posts + where</summary><p>
+<img src="https://i.postimg.cc/6py0DHx6/Screenshot-from-2022-10-09-18-07-56.png" width="640" height=auto>
+</p></details></br>
+
+
++ **union**
++ **intersection**
++ **simetrical difference**
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
