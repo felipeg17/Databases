@@ -67,7 +67,7 @@ ADD COLUMN `phone` INT NOT NULL AFTER `city`;
 
 - *DROP:* It deletes a DB, it **must** be used carefully. 
 
-### DDML (Data Manipulation Language)
+### DML (Data Manipulation Language)
 
 It is a set of commands to manipulate de DB. Once the DDB has been created they are the innstructions to interact with the DB, mainly the tables.
 
@@ -236,7 +236,7 @@ Notice that *usuarios* is located at the left, all data related with the key *us
 <img src="https://i.postimg.cc/7ZvG4sgx/Screenshot-from-2022-10-09-17-28-09.png" width="640" height=auto>
 </p></details></br>
 
-  + **right join:** It takes what is in **B** and what is shared with **A**,in esence, the set **B** plus the joined data from **A**.
+  + **right join:** It takes what is in **B** and what is shared with **A**, in esence, the set **B** plus the joined data from **A**.
 ```sql
 SELECT * FROM usuarios
   RIGHT JOIN posts ON usuarios.id = posts.usuario_id;
@@ -267,13 +267,75 @@ It returns all the posts without an user.
 <img src="https://i.postimg.cc/6py0DHx6/Screenshot-from-2022-10-09-18-07-56.png" width="640" height=auto>
 </p></details></br>
 
++ **intersection:**  It takes what is in **A** but also in **B**, basically the data sharedd by the two sets.
 
-+ **union**
-+ **intersection**
-+ **simetrical difference**
+```sql
+SELECT * FROM usuarios
+  INNER JOIN posts ON usuarios.id = posts.usuario_id;
+```
+It returns all the posts that have an actual user.
+<details><summary>inner join usuarios and posts </summary><p>
+<img src="https://i.postimg.cc/qMy4bNbh/Screenshot-from-2022-10-20-15-55-22.png" width="640" height=auto>
+</p></details></br>
 
++ **union:** It is the sum of the sets, in this case **A** and **B**. *Mysql* does not have a dedicated query for this, so a compound one is requiered, basically both joints, the left and the right.
 
+```sql
+SELECT * FROM usuarios
+  LEFT JOIN posts ON usuarios.id = posts.usuario_id
+UNION
+SELECT * FROM usuarios
+  RIGHT JOIN posts ON usuarios.id = posts.usuario_id;
+```
+It returns all the posts with and without an user and all the users with and without a post.
+<details><summary>outer join usuarios and posts </summary><p>
+<img src="https://i.postimg.cc/SR0NRC14/Screenshot-from-2022-10-20-15-57-29.png" width="640" height=auto>
+</p></details></br>
 
++ **simetrical difference:** It takes what is in **A** but is not shared with **B** plus what is inn **B** but not in **A**, basically it is the complement of the intersection operation. Once again it is a compound operation of two joints using where.
+
+```sql
+SELECT * FROM usuarios
+  LEFT JOIN posts ON usuarios.id = posts.usuario_id
+  WHERE posts.usuario_id IS NULL
+UNION
+SELECT * FROM usuarios
+  RIGHT JOIN posts ON usuarios.id = posts.usuario_id
+  WHERE posts.usuario_id IS NULL;
+```
+It returns the posts without an user and the users without a post.
+<details><summary>outer join usuarios and posts </summary><p>
+<img src="https://i.postimg.cc/LsC3c6CL/Screenshot-from-2022-10-20-16-01-35.png" width="640" height=auto>
+</p></details></br>
+
+### Where 
+
+Where is my mind?.....pixies said. Well one of the most useful commands in a query. *WHERE* allows to filter the data contained in a table using math and relation expressions. Let's see a couple of examples:
+
+```sql
+-- three colums from posts where id equals 50
+SELECT id, titulo, fecha_publicacion FROM posts WHERE id=50 
+```
+
+```sql
+-- three colums from posts where id is between 50 and 52 (included)
+SELECT id, titulo, fecha_publicacion FROM posts WHERE id BETWEEN 50 AND 52
+```
+
+```sql 
+-- three colums from posts where date of publication is before january  the 1st of 2022
+SELECT id, titulo, fecha_publicacion FROM posts WHERE fecha_publicacion<'2022-01-01' 
+```
+
+```sql 
+-- three colums from posts where date of publication is before 2022
+SELECT id, titulo, fecha_publicacion FROM posts WHERE YEAR(fecha_publicacion)< '2022' 
+```
+
+```sql 
+-- three colums from posts where title contais the 'los' (before or after), you can play with the % indicating if there is something before or after, the compariso is ccase sensitive
+SELECT id, titulo, fecha_publicacion FROM posts WHERE titulo LIKE '%los%'
+```
 
 
 
