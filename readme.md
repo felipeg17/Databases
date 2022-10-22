@@ -309,7 +309,6 @@ It returns the posts without an user and the users without a post.
 </p></details></br>
 
 ### Where 
-
 Where is my mind?.....pixies said. Well one of the most useful commands in a query. *WHERE* allows to filter the data contained in a table using math and relation expressions. Let's see a couple of examples:
 
 ```sql
@@ -337,9 +336,53 @@ SELECT id, titulo, fecha_publicacion FROM posts WHERE YEAR(fecha_publicacion)< '
 SELECT id, titulo, fecha_publicacion FROM posts WHERE titulo LIKE '%los%'
 ```
 
+```sql
+--- AND
+--- returns all columns from posts that satisfy usuario_id not null, estatus activo and catedoria_id 2
+SELECT * FROM posts WHERE usuario_id IS NOT NULL AND estatus='activo' AND categoria_id=2;
+```
 
+```sql
+--- OR
+--- returns all columns from etiquetas inn which nombre etiqueta equals either Moda or Avances
+SELECT * FROM etiquetas WHERE nombre_etiqueta IN ("Moda","Avances");
+```
 
+### Group by
+When I was a young and silly I infravalorated the power of Excel, it was for Industriales...and how wrong I used to be. You have a table...boring, you can create 'dyamic tables', you got my attention, well basically that's what *group by* allows to do, filter and group information as you may need. 
 
+Most queries that use *group by* need a aggregation function suh as: **COUNT** **SUM**, **AVG**, **MAX**, **MIN**. As always a couple of examples would make this easier to undertand.
+
+```sql
+--- It returns a table that counts each appearance of categoria_id
+SELECT categoria_id, COUNT(*) as cantidad FROM posts GROUP BY categoria_id;
+```
+<details><summary>result </summary><p>
+<img src="https://i.postimg.cc/cHkK23CN/Screenshot-from-2022-10-21-22-12-38.png" width="640" height=auto>
+</p></details></br>
+
+```sql
+--- It returns the max id from the column id in posts
+SELECT MAX(id) as max_id FROM posts;
+```
+<details><summary>result </summary><p>
+<img src="https://i.postimg.cc/HnHpSs4C/Screenshot-from-2022-10-21-22-15-59.png" width="640" height=auto>
+</p></details></br>
+
+Now two queries related with dates (:disappointed::ok_hand:):
+
+```sql
+--- It returns the amount of posts per year 
+SELECT YEAR(fecha_publicacion) AS year, COUNT(*) AS cantidad FROM posts GROUP BY year;
+```
+
+```sql
+--- It returns the amount of posts per month and their status
+SELECT estatus, MONTHNAME(fecha_publicacion) AS month, COUNT(*) AS cantidad FROM posts GROUP BY month, estatus;
+```
+<details><summary>result </summary><p>
+<img src="https://i.postimg.cc/RhV0SZ3L/Screenshot-from-2022-10-21-22-23-51.png" width="640" height=auto>
+</p></details></br>
 
 
 
