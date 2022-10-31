@@ -384,8 +384,45 @@ SELECT estatus, MONTHNAME(fecha_publicacion) AS month, COUNT(*) AS cantidad FROM
 <img src="https://i.postimg.cc/RhV0SZ3L/Screenshot-from-2022-10-21-22-23-51.png" width="640" height=auto>
 </p></details></br>
 
+### Order by
+It allows to order the proyected info using columns as pivots. There are to ways, the classical ones, ascending (**ASC**) and descending (**DESC**). When a query brings a lot of info, it could be shortened by using the command **LIMIT** and the number of rows to display.
 
+```sql
+--- It returns the count of posts per year sorted in an ascending way and limited to show 5 rows
+SELECT YEAR(fecha_publicacion) AS year, COUNT(*) AS cantidad 
+FROM posts 
+GROUP BY year
+ORDER BY year ASC
+LIMIT 5;
+```
+<details><summary>result </summary><p>
+<img src="https://i.postimg.cc/43VZdCkG/Screenshot-from-2022-10-30-20-55-00.png" width="640" height=auto>
+</p></details></br>
 
+```sql
+--- It returns the count of posts per year sorted in an descending way
+SELECT YEAR(fecha_publicacion) AS year, COUNT(*) AS cantidad 
+FROM posts 
+GROUP BY year 
+ORDER BY year DESC;
+```
+<details><summary>result </summary><p>
+<img src="https://i.postimg.cc/9M22wxC7/Screenshot-from-2022-10-30-20-56-54.png" width="640" height=auto>
+</p></details></br>
+
+### Having
+It is the **WHERE** when a **GROUP BY** is used...see the example.
+
+```sql
+--- It returns the count of posts per year after 2023 sorted in an ascending way 
+SELECT YEAR(fecha_publicacion) AS year, COUNT(*) AS cantidad 
+FROM posts 
+GROUP BY year HAVING year>2023
+ORDER BY year DESC;
+```
+<details><summary>result </summary><p>
+<img src="https://i.postimg.cc/5tddDPHR/Screenshot-from-2022-10-30-21-00-23.png" width="640" height=auto>
+</p></details></br>
 
 
 
