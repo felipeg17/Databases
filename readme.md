@@ -21,14 +21,54 @@ I started the repos with [ROS tutorials](https://github.com/fegonzalez7/rob_unal
 ### SQL
 
 ### RDBMS
-  * MySQL
+  * MySQL: Made by oracle, it's probably the most extended in the community of DB.</br> 
+  **Installation:**
+    <details><summary>Linux</summary><p>
+      Install the required packages:
+      <pre>sudo apt install mysql-server</pre>
+      Check is the service is running:
+      <pre> systemctl is-active mysql</pre>
+
+      Set password, this part is particularlly stressfull, so let's try...
+      <pre>sudo mysql_secure_installation</pre>
+      Here, I recommed to use the strong type of password. I will fail trying to set the password, so close the shell, open a new one an type:
+      <pre>mysql -u root</pre>
+      <pre>ALTER USER 'root'@'localhost' IDENTIFIED WITH mysql_native_password by 'New_password_0';</pre>
+      <pre>FLUSH PRIVILEGES;</pre>
+      By now all should be working, so next time you may want to log just type:
+      <PRE>mysql -u root -p</PRE>
+      Finally the visual interface, **mysql_workbench**. Quite easy, just type:
+      <pre>sudo snap install mysql-workbench-community</pre>
+      In the likely scenario where the localhost login fails, just type the following to change the way the credentials are used:
+      <pre>sudo snap connect mysql-workbench-community:password-manager-service :password-manager-service</pre>
+</pre>
+    </p></details></br>
+
   * PostgreSQL
+  **Installation:**
+    <details><summary>Linux</summary><p>
+      Install the required packages:
+      <pre>sudo apt install postgre</pre>
+      Enable the service:
+      <pre> sudo systemctl start postgresql.service</pre>
+      Install the graphical interface.
+      <pre>curl -fsS https://www.pgadmin.org/static/packages_pgadmin_org.pub | sudo gpg --dearmor -o /usr/share/keyrings/packages-pgadmin-org.gpg
+      sudo sh -c 'echo "deb [signed-by=/usr/share/keyrings/packages-pgadmin-org.gpg] https://ftp.postgresql.org/pub/pgadmin/pgadmin4/apt/$(lsb_release -cs) pgadmin4 main" > /etc/apt/sources.list.d/pgadmin4.list && apt update'
+      sudo apt install pgadmin4
+      </pre>
+      Here, I recommed to use the strong type of password. I will fail trying to set the password, so close the shell, open a new one an type:
+      <pre>sudo -u postgres psql</pre>
+      <pre>\password postgres</pre>
+      <pre>\q</pre>
+      Time to setup the local server. Open the pgadmin4, create a nwe server (name it whatever you want), for address use either *localhost* or *127.0.0.1*, for **password** use the one yo defined in the previous step. And voila postgreSQL is set up.
+</pre>
+    </p></details></br>
 
 ### DDL (Data Definition Language)
 
 It is a set of commands to create and modify the objects of a DB. They are quite useful on the DB definition, but then they lose participation. 
 
-- *CREATE:* It creates a table or a schema
+- *CREATE:*  It creates a table or a schema
 
 ```sql
 -- A schema named platziblog is created, utf8 is efine as default character set to store the information 
