@@ -22,13 +22,18 @@ I started the repos with [ROS tutorials](https://github.com/fegonzalez7/rob_unal
 
 ### RDBMS
   * MySQL: Made by oracle, it's probably the most extended in the community of DB.</br> 
-  **Installation:**
-    <details><summary>Linux</summary><p>
+ 
+    **Installation:**
+
+    - **Windows:** Probably the easiest, just go [here](https://dev.mysql.com/downloads/windows/installer/5.6.html) download and make your custom install. I had some troubles with it, the login in procedure fails a lot, so I switch to linux.
+
+    - **Linux:** I struggled a lot, but I found a good [tutorial](https://www.digitalocean.com/community/tutorials/how-to-install-mysql-on-ubuntu-22-04). Follow the steps as close as possible, I spent like 4 hours because I wannted to do it my way. **Pro tip:** MySQL Workbench for linux coulb be buggy in terms of GUI, so try to find hidden panels.
+
+      <details><summary>Linux</summary><p>
       Install the required packages:
       <pre>sudo apt install mysql-server</pre>
       Check is the service is running:
       <pre> systemctl is-active mysql</pre>
-
       Set password, this part is particularlly stressfull, so let's try...
       <pre>sudo mysql_secure_installation</pre>
       Here, I recommed to use the strong type of password. I will fail trying to set the password, so close the shell, open a new one an type:
@@ -44,19 +49,20 @@ I started the repos with [ROS tutorials](https://github.com/fegonzalez7/rob_unal
 </pre>
     </p></details></br>
 
-  * PostgreSQL
-  **Installation:**
-    <details><summary>Linux</summary><p>
+  * PostgreSQL: Another GNU alternative, not much to say...I like the elephant. </br>
+   **Installation:**
+    - **Windows:**
+    - **Linux:**
+      <details><summary>Linux</summary><p>
       Install the required packages:
       <pre>sudo apt install postgre</pre>
       Enable the service:
       <pre> sudo systemctl start postgresql.service</pre>
       Install the graphical interface.
-      <pre>curl -fsS https://www.pgadmin.org/static/packages_pgadmin_org.pub | sudo gpg --dearmor -o /usr/share/keyrings/packages-pgadmin-org.gpg
-      sudo sh -c 'echo "deb [signed-by=/usr/share/keyrings/packages-pgadmin-org.gpg] https://ftp.postgresql.org/pub/pgadmin/pgadmin4/apt/$(lsb_release -cs) pgadmin4 main" > /etc/apt/sources.list.d/pgadmin4.list && apt update'
-      sudo apt install pgadmin4
-      </pre>
-      Here, I recommed to use the strong type of password. I will fail trying to set the password, so close the shell, open a new one an type:
+      <pre>curl -fsS https://www.pgadmin.org/static/packages_pgadmin_org.pub | sudo gpg --dearmor -o /usr/share/keyrings/packages-pgadmin-org.gpg</pre>
+      <pre>sudo sh -c 'echo "deb [signed-by=/usr/share/keyrings/packages-pgadmin-org.gpg] https://ftp.postgresql.org/pub/pgadmin/pgadmin4/apt/$(lsb_release -cs) pgadmin4 main" > /etc/apt/sources.list.d/pgadmin4.list && apt update'</pre>
+      <pre>sudo apt install pgadmin4</pre>
+      Here, I recommed to use the strong type of password. I will fail trying to set the password, so close the shell, open a new one and type:
       <pre>sudo -u postgres psql</pre>
       <pre>\password postgres</pre>
       <pre>\q</pre>
@@ -136,24 +142,15 @@ INSERT INTO `platziblog.people` (last_name, first_name, address, city)
 VALUES ('Hernandez','Monica','Pensilvania 1600', 'Aguascalientes'),
 ('Hernandez','Laura','Calle 21','Monterrey');
 ```
-
 - *UPDATE*
 - *DELETE*
 
-#### Installation process
-
- - **Windows:** Probably the easiest, just go [here](https://dev.mysql.com/downloads/windows/installer/5.6.html) download and make your custom install. I had some troubles with it, the login in procedure fails a lot, so I switch to linux.
- - **Linux:** I struggled a lot, but I found a good [tutorial](https://www.digitalocean.com/community/tutorials/how-to-install-mysql-on-ubuntu-22-04). Follow the steps as close as possible, I spent like 4 hours because I wannted to do it my way. **Pro tip:** MySQL Workbench for linux coulb be buggy in terms of GUI, so try to find hidden panels.
- - **Mac**
-
 #### Database structure
-
-
  - **Squema:** It is basically the DB, you can ddefine rules, filters, among others. A schema contains tables, views, functions and proceddures.
  - **Table:** It is a matrix of information, it is comprisedd of colums that represent a certain type of data (INT, CHAR, TEXT, TIME) and rows, which are the actual data in the table. 
  - **Queries:** They are the core of SQL (Structured Query). They are a set of commads used to look up for certain info in the tables. 
 
-#### Example
+## Part 1: Blog
 The idea is to create a DB for a blog. The variable types and their realationships are defined as follows:
 
 <img src="https://i.postimg.cc/ydZ96f1p/Screenshot-from-2022-10-02-16-34-12.png" alt="DB Diagram for a blog" width="560" height=auto>
@@ -464,6 +461,35 @@ ORDER BY year DESC;
 <img src="https://i.postimg.cc/5tddDPHR/Screenshot-from-2022-10-30-21-00-23.png" width="640" height=auto>
 </p></details></br>
 
+## Part 2: Students
+
+This second part will use Postgres SQL, yup another RDBMS, to create the tables just define a new schema *platzi* for ease and then execute [alumnos table](platzi-alumnos.sql) and [carreras table](platzi-carreras.sql). 
+
+**Disclaimer:** Notice thast the schema can be defined be code by doing:
+
+```sql
+CREATE SCHEMA `platzi` DEFAULT CHARACTER SET utf8;
+```
+
+Some interesting queries:
+```sql
+--- the first 5 rows
+SELECT * 
+FROM platzi.alumnos 
+LIMIT 5;
+--- alternative
+SELECT * 
+FROM platzi.alumnos 
+FETCH FIRST 5 ROWS ONLY;
+```
+
+```sql
+--- the second highst tuition
+SELECT DISTINCT colegiatura --- Distinct selects unique values
+FROM platzi.alumnos
+ORDER BY colegiatura DESC
+LIMIT 1 OFFSET 1; --- Offset selects the following result of limit
+```
 
 
 
