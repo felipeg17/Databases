@@ -12,13 +12,11 @@ I started the repos with [ROS tutorials](https://github.com/fegonzalez7/rob_unal
 </p></details></br>
 
 # Databases
-
-
 ## Intro Databases
 
 ## Relational Databases
 
-### SQL
+## SQL
 
 ### RDBMS
   * MySQL: Made by oracle, it's probably the most extended in the community of DB.</br> 
@@ -27,7 +25,8 @@ I started the repos with [ROS tutorials](https://github.com/fegonzalez7/rob_unal
 
     - **Windows:** Probably the easiest, just go [here](https://dev.mysql.com/downloads/windows/installer/5.6.html) download and make your custom install. I had some troubles with it, the login in procedure fails a lot, so I switch to linux.
 
-    - **Linux:** I struggled a lot, but I found a good [tutorial](https://www.digitalocean.com/community/tutorials/how-to-install-mysql-on-ubuntu-22-04). Follow the steps as close as possible, I spent like 4 hours because I wannted to do it my way. **Pro tip:** MySQL Workbench for linux coulb be buggy in terms of GUI, so try to find hidden panels.
+    - **Linux:** I struggled a lot, but I found a good [tutorial](https://www.digitalocean.com/community/tutorials/how-to-install-mysql-on-ubuntu-22-04). Follow the steps as close as possible, I spent like 4 hours because I wannted to do it my way. </br>
+    **Pro tip:** MySQL Workbench for linux coulb be buggy in terms of GUI, so try to find hidden panels.
 
       <details><summary>Linux</summary><p>
       Install the required packages:
@@ -51,8 +50,8 @@ I started the repos with [ROS tutorials](https://github.com/fegonzalez7/rob_unal
 
   * PostgreSQL: Another GNU alternative, not much to say...I like the elephant. </br>
    **Installation:**
-    - **Windows:**
-    - **Linux:**
+    - **Windows:** Pretty straightforward, just install the *postgre engine* [download here](https://www.postgresql.org/download/windows/) and then the *pgadmin* [here](https://www.pgadmin.org/download/pgadmin-4-windows/).
+    - **Linux:** Not equally esay than windows but follow the summary instructions.
       <details><summary>Linux</summary><p>
       Install the required packages:
       <pre>sudo apt install postgre</pre>
@@ -69,6 +68,11 @@ I started the repos with [ROS tutorials](https://github.com/fegonzalez7/rob_unal
       Time to setup the local server. Open the pgadmin4, create a nwe server (name it whatever you want), for address use either *localhost* or *127.0.0.1*, for **password** use the one yo defined in the previous step. And voila postgreSQL is set up.
 </pre>
     </p></details></br>
+
+### Database structure
+ - **Squema:** It is basically the DB, you can ddefine rules, filters, among others. A schema contains tables, views, functions and proceddures.
+ - **Table:** It is a matrix of information, it is comprisedd of colums that represent a certain type of data (INT, CHAR, TEXT, TIME) and rows, which are the actual data in the table. 
+ - **Queries:** They are the core of SQL (Structured Query). They are a set of commads used to look up for certain info in the tables. 
 
 ### DDL (Data Definition Language)
 
@@ -145,10 +149,7 @@ VALUES ('Hernandez','Monica','Pensilvania 1600', 'Aguascalientes'),
 - *UPDATE*
 - *DELETE*
 
-#### Database structure
- - **Squema:** It is basically the DB, you can ddefine rules, filters, among others. A schema contains tables, views, functions and proceddures.
- - **Table:** It is a matrix of information, it is comprisedd of colums that represent a certain type of data (INT, CHAR, TEXT, TIME) and rows, which are the actual data in the table. 
- - **Queries:** They are the core of SQL (Structured Query). They are a set of commads used to look up for certain info in the tables. 
+
 
 ## Part 1: Blog
 The idea is to create a DB for a blog. The variable types and their realationships are defined as follows:
